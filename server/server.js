@@ -4,6 +4,7 @@ import cors from 'cors';
 import morgan from 'morgan';
 import initializeMongoConnection from './config/database.js';
 import creditReportRoutesV2 from './routes/creditReport.routes.js';
+import cron from 'node-cron'
 
 dotenv.config();
 
@@ -18,6 +19,10 @@ app.use(express.urlencoded({ extended: true }));
 app.use(morgan('dev'));
 
 app.use('/api/credit-reports', creditReportRoutesV2);
+
+cron.schedule('* * * * *', () => {
+  console.log('running a task every minute');
+});
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
